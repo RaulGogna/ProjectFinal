@@ -5,4 +5,7 @@ class CreditsScreen : Screen
     {
         //To DO
     }
+    public override void Display()
+    {
+    }
 }
