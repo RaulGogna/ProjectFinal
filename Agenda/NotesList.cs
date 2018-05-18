@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 public class NotesList
 {
-    private List<Note> NotesList_notes;
+    private List<Note> notes;
     public  void Add()
     {
         //To DO

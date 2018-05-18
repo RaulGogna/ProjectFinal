@@ -5,7 +5,7 @@ class Calendar
     MenuScreen menu;
     DateTime date = DateTime.Now;
 
-    public  void Run()
+    public void Run()
     {
         Display();
     }
@@ -29,11 +29,11 @@ class Calendar
             Console.SetCursorPosition(14, 10);
             for (int i = 0; i < 6; i++)
             {
-                Console.Write(days[i]+ "  ");
+                Console.Write(days[i] + "  ");
             }
             Console.SetCursorPosition(15, 13);
             Console.Write(date.Day);
-            
+
         } while (!exit);
         menu = new MenuScreen();
         menu.Run();

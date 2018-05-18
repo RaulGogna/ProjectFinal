@@ -1,8 +1,25 @@
 using System;
-public class Task
+[Serializable]
+class Task
 {
+    public string Description { get; set; }
+    public string DateStart { get; set; }
+    public string DateDue { get; set; }
+    public string Category { get; set; }
+    public int Priority { get; set; }
+    public bool Confidential { get; set; }
+    public Task(string description, string dateStart, string dateDue, 
+        string category, int priority, bool confidential)
+    {
+        Description = description;
+        DateStart = dateStart;
+        DateDue = dateDue;
+        Category = category;
+        Priority = priority;
+        Confidential = confidential;
+    }
     public Task()
     {
-        //To DO
+
     }
 }

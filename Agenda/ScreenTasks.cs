@@ -1,39 +1,47 @@
 using System;
-public class ScreenTasks
+class ScreenTasks
 {
-    public TasksList Tasks;
-    public int index;
-
-    public  void Add()
+    public void Run()
+    {
+        TasksList Tasks = new TasksList();
+        int count = 1;
+        bool exit = false;
+        do
+        {
+            DisplayTaskActual();
+            
+        } while (!exit);
+    }
+    private void Add()
     {
         //To DO
     }
 
-    public  void Modify()
+    private void Modify()
     {
         //To DO
     }
 
-    public  void Delete()
+    private void Delete()
     {
         //To DO
     }
 
-    public  void Sort()
+    private void Sort()
     {
         //To DO
     }
 
-    public  void DisplayInfo()
+    private void DisplayTaskActual()
     {
         //To DO
     }
-    public  void NextTask()
+    private void GetChosenOption(ref coun)
     {
         //To DO
     }
 
-    public  void ShowInCalendar()
+    private void ShowInCalendar()
     {
         //To DO
     }
