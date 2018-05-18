@@ -1,8 +1,9 @@
 /*This class creates the entire screen of the main menu,
 and allows you to select the menu options.*/
 using System;
-public class MenuScreen
+class MenuScreen
 {
+    
     public  void Run()
     {
         ConfigureConsole();

@@ -14,6 +14,7 @@ class WelcomeScreen : Screen
     {
         Console.Clear();
         Console.CursorVisible = false;
+        Console.Title = "Agenda 2018";
         string intro = "Agenda 2018";
         Console.SetCursorPosition(40 - intro.Length / 2, 4);
         Console.WriteLine(intro);
