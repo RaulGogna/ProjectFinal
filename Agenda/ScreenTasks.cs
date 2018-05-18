@@ -1,3 +1,4 @@
+//Show TasksToDo - V.01
 using System;
 class ScreenTasks
 {
@@ -8,8 +9,8 @@ class ScreenTasks
         bool exit = false;
         do
         {
-            DisplayTaskActual();
-            
+            DisplayTaskActual(Tasks, count);
+            GetChosenOption(ref count, ref Tasks, ref exit);
         } while (!exit);
     }
     private void Add()
@@ -29,16 +30,29 @@ class ScreenTasks
 
     private void Sort()
     {
-        //To DO
+        //To Do
     }
+    private void SetConsole()
+    {
+        Console.Clear();
 
-    private void DisplayTaskActual()
-    {
-        //To DO
+        Console.BackgroundColor = ConsoleColor.Blue;
+        for (int i = 0; i < Console.WindowHeight; i++)
+        {
+            Console.Write(new string(' ', Console.WindowWidth));
+        }
+
+        Console.SetCursorPosition(0, 0);
+        Console.ForegroundColor = ConsoleColor.White;
     }
-    private void GetChosenOption(ref coun)
+    private void DisplayTaskActual(TasksList Task, int count)
     {
-        //To DO
+        SetConsole();
+    }
+    private void GetChosenOption(ref int count, ref TasksList Task, 
+        ref bool exit)
+    {
+        
     }
 
     private void ShowInCalendar()
