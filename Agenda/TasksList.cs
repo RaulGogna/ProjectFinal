@@ -1,3 +1,4 @@
+//18-05-2018 - RaulGogna, V.01 Implemented methods
 using System;
 using System.Collections.Generic;
 using System.IO;

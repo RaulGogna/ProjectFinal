@@ -1,3 +1,4 @@
+// 15-05-2018 - RaulGogna, V.01
 /*In this class we have created the welcome screen with a 
 progression bar animation.*/
 
@@ -48,7 +49,7 @@ class WelcomeScreen : Screen
                 Console.WriteLine((int)count + "%");
                 count += (100.0 / (Console.WindowWidth - 9));
                 x++;
-                Thread.Sleep(100);
+                Thread.Sleep(50);
             }
             
         } while (count < 101.0);

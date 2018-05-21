@@ -1,6 +1,7 @@
+//18/05/2018 - RaulGogna, V.01 Implemented constructor
 using System;
 [Serializable]
-class Task
+class Task : IComparable
 {
     public string Description { get; set; }
     public string DateStart { get; set; }
@@ -21,5 +22,11 @@ class Task
     public Task()
     {
 
+    }
+
+    public int CompareTo(Object t2)
+    {
+        return (Priority).CompareTo(
+            ((Task)t2).Priority);;
     }
 }

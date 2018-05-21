@@ -1,3 +1,4 @@
+//16/05/2018 - RaulGogna, V.01 Implemented all functions of class
 /*This class can change the background color and foregroundColor and save code
  in the all proyect.*/
 using System;
@@ -91,6 +92,17 @@ class ConfigurationConsole
             Console.Write(text);
         return color;
     }
+
+    public string WriteFore(string text, string color, bool line)
+    {
+        SwitchFore(color);
+        if (line)
+            Console.WriteLine(text);
+        else
+            Console.Write(text);
+        return color;
+    }
+
     public void WriteFore(int x, int y, string color)
     {
         Console.SetCursorPosition(x, y);

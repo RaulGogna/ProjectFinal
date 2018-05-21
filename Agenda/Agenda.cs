@@ -1,6 +1,6 @@
 //Raul Gogna
-//v.01 Run the main menu
-//v.02 Run the WelcomeScreen
+//14/05/2018 - RaulGogna, V.01 Run the main menu
+//15/05/2018 - RaulGogna, V.02 Run the WelcomeScreen
 using System;
 using System.Collections.Generic;
 class Agenda
