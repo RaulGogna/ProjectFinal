@@ -1,23 +1,43 @@
+// 22/05/2018 - RaulGogna, V.01 created constructor, and Properties
 using System;
-class Contact
+class Contact : IComparable
 {
     // Attributes
 
-    public string Name;
+    public string Name { get; set; }
 
-    public string Email;
+    public string Email { get; set; }
 
-    public int Age;
+    public int Age { get; set; }
 
-    public int Telephone;
+    public int Telephone { get; set; }
 
-    public string Address;
+    public string Address { get; set; }
 
-    public string Country;
+    public string Country { get; set; }
 
-    public string Observations;
+    public string Observations { get; set; }
+
+    public Contact(string name, string email, int age, int telephone, 
+        string adress, string country, string observations)
+    {
+        Name = name;
+        Email = email;
+        Age = age;
+        Telephone = telephone;
+        Address = adress;
+        Country = country;
+        Observations = observations;
+    }
+
     public Contact()
     {
-        //To DO
+
+    }
+
+    public int CompareTo(Object c2)
+    {
+        return (Name).CompareTo(
+            ((Contact)c2).Name);
     }
 }

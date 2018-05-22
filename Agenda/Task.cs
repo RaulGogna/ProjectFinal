@@ -9,6 +9,7 @@ class Task : IComparable
     public string Category { get; set; }
     public int Priority { get; set; }
     public bool Confidential { get; set; }
+
     public Task(string description, string dateStart, string dateDue, 
         string category, int priority, bool confidential)
     {
@@ -27,6 +28,6 @@ class Task : IComparable
     public int CompareTo(Object t2)
     {
         return (Priority).CompareTo(
-            ((Task)t2).Priority);;
+            ((Task)t2).Priority);
     }
 }

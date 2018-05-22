@@ -3,8 +3,8 @@ and allows you to select the menu options.*/
 using System;
 class MenuScreen
 {
-    
-    public  void Run()
+
+    public void Run()
     {
         ConfigureConsole();
 
@@ -25,25 +25,20 @@ class MenuScreen
             switch (option)
             {
                 case 1:
-                    Calendar calendar = new Calendar();
-                    calendar.Run();
+                    Calendar calendar = new Calendar(); calendar.Run();
                     break;
                 case 2:
-                    Contacts contacts = new Contacts();
-                    contacts.Run();
+                    Contacts contacts = new Contacts(); contacts.Run();
                     break;
                 case 3:
-                    TaskToDo tasks = new TaskToDo();
-                    tasks.Run();
+                    TaskToDo tasks = new TaskToDo(); tasks.Run();
                     break;
                 case 4:
-                    Notes notes = new Notes();
-                    notes.Run();
+                    Notes notes = new Notes(); notes.Run();
                     break;
                 case 5:
-                    ConfigurationConsole configuration = 
-                        new ConfigurationConsole();
-                    configuration.Run();
+                    ConfigurationConsole config = new ConfigurationConsole();
+                    config.Run();
                     break;
                 case 0:
                     exit = true; break;
@@ -67,7 +62,7 @@ class MenuScreen
         string emptyLine = new string(' ', Console.WindowWidth - 4);
 
         Console.BackgroundColor = ConsoleColor.White;
-        Console.SetCursorPosition(0,0);
+        Console.SetCursorPosition(0, 0);
         Console.Write(line);
         for (int i = 1; i < Console.WindowHeight; i++)
         {
@@ -79,10 +74,10 @@ class MenuScreen
             Console.BackgroundColor = ConsoleColor.White;
             Console.Write("  ");
         }
-        Console.SetCursorPosition(0,0);
+        Console.SetCursorPosition(0, 0);
         Console.Write(line);
 
-        Console.SetCursorPosition(4, Console.WindowHeight-3);
+        Console.SetCursorPosition(4, Console.WindowHeight - 3);
         Console.ForegroundColor = ConsoleColor.Black;
         Console.Write("Press ESC to Exit");
         Console.ResetColor();

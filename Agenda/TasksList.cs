@@ -22,13 +22,13 @@ class TasksList
     }
     public Task Get(int index)
     {
-        if (index >= Tasks.Count ||index < 0)
+        try
+        {
+            return Tasks[index - 1];
+        }
+        catch (Exception)
         {
             return null;
-        }
-        else
-        {
-            return Tasks[index];
         }
     }
 
@@ -40,8 +40,22 @@ class TasksList
         }
         else
         {
-            Tasks[n] = task;
+            Tasks[n - 1] = task;
             Save();
+        }
+    }
+
+    public void Delete(int o)
+    {
+        try
+        {
+            Tasks.RemoveAt(o);
+            Count--;
+            Tasks.Sort();
+        }
+        catch (Exception)
+        {
+            return;
         }
     }
     public void Save()
@@ -49,8 +63,8 @@ class TasksList
         try
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("Tasks.dat",
-                FileMode.Create);
+            Stream stream = new FileStream("Tasks.dat", FileMode.Create, 
+                FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, Tasks);
             stream.Close();
         }
@@ -67,8 +81,8 @@ class TasksList
             try
             {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream("Tasks.dat",
-                    FileMode.Open);
+                Stream stream = new FileStream("Tasks.dat", FileMode.Open, 
+                    FileAccess.Read, FileShare.Read);
                 Tasks = (List<Task>)formatter.Deserialize(stream);
                 stream.Close();
             }

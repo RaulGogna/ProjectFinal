@@ -10,15 +10,12 @@ class ScreenTasks
     public void Run()
     {
         tasks = new TasksList();
-        int count = 1;
         int option = 1;
-        bool selectedOption = false;
         bool exit = false;
         do
         {
-            DisplayTaskActual(tasks, count);
-            GetChosenOption(ref count, ref tasks, ref option, 
-                ref selectedOption, ref exit);
+            DisplayTaskList(tasks, option);
+            GetChosenOption(ref tasks, ref option, ref exit);
         } while (!exit);
         menu.Run();
     }
@@ -128,15 +125,15 @@ class ScreenTasks
 
     }
 
-    private void Delete()
+    private void Delete(int option)
     {
-        //To DO
+        tasks.Delete(option - 1);
     }
 
     private void Sort()
     {
-        Task task = new Task();
-        task.CompareTo(tasks.Get(taskActual).Priority);
+        TasksList task = new TasksList();
+        task.Tasks.Sort();
     }
 
     private void Search()
@@ -151,68 +148,53 @@ class ScreenTasks
         for (int i = 0; i < Console.WindowHeight; i++)
         {
             Console.Write(new string(' ', Console.WindowWidth));
+            //To draw bar vertical in middle of screen
+            if (i <= 20)
+            {
+                Console.SetCursorPosition((Console.WindowWidth / 2), i);
+                Console.Write("|" + new string(' ', Console.WindowWidth / 2));
+            }
         }
 
         Console.SetCursorPosition(0, 0);
         Console.ForegroundColor = ConsoleColor.White;
     }
-    private void DisplayTaskActual(TasksList Task, int count)
+    private void DisplayTaskList(TasksList Tasks, int option)
     {
-        SetConsole();
+        
 
         string line = new string('-', Console.WindowWidth);
-        string helpLine1 = "1-Add  2-Modify  3-Delete  4-Search  " +
-            "5-ShowTask  Esc-Exit";
+        string helpLine1 = "1-Add  2-Modify  3-Delete  4-Search  Esc-Exit";
         string helpLine2 = "7-Listados";
 
-        /*if(Task.Count == 0)
+        if(Tasks.Count == 0)
         {
             Console.WriteLine("Not dates");
-            return;
-        }*/
-        string[] camps = { "Description:", "DateStart:", "DateDue:",
-            "Category:", "Priority:", "Confidential:"};
 
-        //Program body
-        try
-        {
-            int contCamps = 0;
-            config.WriteFore(0, 4, camps[contCamps], "white", false);
-            config.WriteFore(15, 4, 
-                checkVacio(tasks.Get(count).Description), "gray", true);
-            contCamps++;
-
-            Console.WriteLine();
-            config.WriteFore(0, 7, camps[contCamps], "white", false);
-            config.WriteFore(15, 7,
-                checkVacio(tasks.Get(count).DateStart), "gray", true);
-            contCamps++;
-
-            config.WriteFore(0, 8, camps[contCamps], "white", false);
-            config.WriteFore(15, 8,
-                checkVacio(tasks.Get(count).DateDue), "gray", true);
-            contCamps++;
-
-            Console.WriteLine();
-            config.WriteFore(0, 10, camps[contCamps], "white", false);
-            config.WriteFore(15, 10,
-                checkVacio(tasks.Get(count).Category), "gray", true);
-            contCamps++;
-
-            config.WriteFore(0, 12, camps[contCamps], "white", false);
-            config.WriteFore(15, 12,
-                checkVacio(tasks.Get(count).Priority), "gray", true);
-            contCamps++;
-
-            config.WriteFore(0, 14, camps[contCamps], "white", false);
-            config.WriteFore(15, 14,
-                checkVacio(tasks.Get(count).Confidential), "gray", true);
-            contCamps = 0;
-
+            Console.Write("Do you want add first record(yes/no): ");
+            string answer = Console.ReadLine();
+            if (answer == "yes")
+                Add();
         }
-        catch (Exception e)
+        SetConsole();
+
+        int x = 2;
+        int y = 1;
+        for (int i = 0; i < Tasks.Count; i++)
         {
-            Console.WriteLine("Error: " + e.Message);
+            config.WriteFore(x, y + i, "white");
+            if (i == option - 1)///
+            {
+                config.WriteBack("green");
+                config.WriteFore(Tasks.Tasks[i].Description + " (" +
+                    Tasks.Tasks[i].DateDue + ")", "white", false);
+            }
+            else
+            {
+                config.WriteBack(Tasks.Tasks[i].Description + " (" +
+                    Tasks.Tasks[i].DateDue + ")", "blue", false);
+            }
+            Console.ResetColor();
         }
 
         config.WriteBack(0, (Console.WindowHeight - 4), line, false);
@@ -220,7 +202,70 @@ class ScreenTasks
             (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
         config.WriteBack(Console.WindowWidth / 2 -
             (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
+
+        ShowTaskCursor(Tasks, option);
  
+    }
+
+    private void ShowTaskCursor(TasksList tasksList, int option)
+    {
+        string[] camps = { "Description:", "DateStart:", "DateDue:",
+            "Category:", "Priority:", "Confidential:"};
+
+        //Program body
+        try
+        {
+            int contCamps = 0;
+            config.WriteFore((Console.WindowWidth / 2 + 2), 4, camps[contCamps],
+                "white", false);
+            config.WriteFore(
+                (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 4,
+                checkVacio(tasks.Get(option).Description), "gray", true);
+            contCamps++;
+
+            Console.WriteLine();
+            config.WriteFore((Console.WindowWidth / 2 + 2), 7, camps[contCamps],
+                "white", false);
+            config.WriteFore(
+                (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 7,
+                checkVacio(tasks.Get(option).DateStart), "gray", true);
+            contCamps++;
+
+            config.WriteFore((Console.WindowWidth / 2 + 2), 8, camps[contCamps],
+                "white", false);
+            config.WriteFore(
+                (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 8,
+                checkVacio(tasks.Get(option).DateDue), "gray", true);
+            contCamps++;
+
+            Console.WriteLine();
+            config.WriteFore((Console.WindowWidth / 2 + 2), 10,
+                camps[contCamps], "white", false);
+            config.WriteFore(
+                (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 10,
+                checkVacio(tasks.Get(option).Category), "gray", true);
+            contCamps++;
+
+            config.WriteFore((Console.WindowWidth / 2 + 2), 12,
+                camps[contCamps], "white", false);
+            config.WriteFore(
+                (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 12,
+                checkVacio(tasks.Get(option).Priority), "gray", true);
+            contCamps++;
+
+            config.WriteFore((Console.WindowWidth / 2 + 2), 14,
+                camps[contCamps], "white", false);
+            config.WriteFore(
+                (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 14,
+                checkVacio(tasks.Get(option).Confidential), "gray", true);
+            contCamps = 0;
+
+            Console.ResetColor();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e.Message);
+        }
     }
     private string checkVacio(string lineToCheck)
     {
@@ -257,8 +302,8 @@ class ScreenTasks
             return lineToCheck.ToString();
         }
     }
-    private void GetChosenOption(ref int count, ref TasksList Task, 
-        ref int option, ref bool selectedOption, ref bool exit)
+    private void GetChosenOption(ref TasksList Task, 
+        ref int option, ref bool exit)
     {
         ConsoleKeyInfo key;
 
@@ -269,16 +314,15 @@ class ScreenTasks
 
         switch (key.Key)
         {
-            case ConsoleKey.Enter: selectedOption = true; break;
             case ConsoleKey.Escape:
                 exit = true;
                 Task.Save();
                 break;
             case ConsoleKey.NumPad1: Add(); break;
             case ConsoleKey.NumPad2: Modify(taskActual); break;
-            case ConsoleKey.NumPad3: Delete();break;
+            case ConsoleKey.NumPad3: Delete(option);break;
             case ConsoleKey.NumPad4: Search();break;
-            case ConsoleKey.NumPad5: DisplayTaskActual(Task, count);break;
+            case ConsoleKey.NumPad5: DisplayTaskList(Task, option);break;
             case ConsoleKey.DownArrow:
                 if (option < Task.Count)
                     option++;
