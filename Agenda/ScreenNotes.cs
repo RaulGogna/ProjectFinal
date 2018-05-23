@@ -1,8 +1,17 @@
+
 using System;
-public class ScreenNotes
+using System.Collections.Generic;
+class ScreenNotes
 {
-    public NotesList Notes;
+    MenuScreen menu = new MenuScreen();
+    ConfigurationConsole config = new ConfigurationConsole();
+    public List<NotesList> ListGlobal { get; set; }
     public int index;
+    
+    public void Run()
+    {
+
+    }
     public  void Add()
     {
         //To DO
@@ -33,3 +42,5 @@ public class ScreenNotes
         //To DO
     }
 }
+///Foreach
+/// if(tal.Done == true && tal.Title = )

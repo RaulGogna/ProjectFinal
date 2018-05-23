@@ -1,19 +1,55 @@
+// 23/05/2018 - RaulGogna, V.01 Implemented methods,constructors,and properties
 using System;
 using System.Collections.Generic;
-public class NotesList
+
+[Serializable]
+class NotesList : IComparable
 {
-    private List<Note> notes;
-    public  void Add()
+    public List<Note> Notes { get; set; }
+    public GlobalListNotes Global = new GlobalListNotes();
+    public string Title { get; set; }
+    public int Count { get; set; }
+
+    public NotesList()
     {
-        //To DO
+        Global.Load();
+        Notes = new List<Note>();
+        Count = Notes.Count;
+    }
+    public void Add(Note noteToAdd)
+    {
+        Notes.Add(noteToAdd);
+        Title = noteToAdd.Title;
+        Count++;
     }
 
-    public  void Save()
+    public Note Get(int index)
     {
-        //To DO
+        try
+        {
+            return Notes[index - 1];
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
-    public  void Load()
+
+    public void Set(int n, Note note)
     {
-        //To DO
+        if (n >= Count || n < 0)
+        {
+            return;
+        }
+        else
+        {
+            Notes[n] = note;
+            Global.Save();
+        }
+    }
+
+    public int CompareTo(Object n2)
+    {
+        return (String.Compare(Title, ((NotesList)n2).Title, true));
     }
 }

@@ -6,9 +6,10 @@ class ScreenTasks
     MenuScreen menu = new MenuScreen();
     ConfigurationConsole config = new ConfigurationConsole();
     public TasksList tasks;
-    public int taskActual = 0;
     public void Run()
     {
+        ConfigureConsole();
+        Console.Clear();
         tasks = new TasksList();
         int option = 1;
         bool exit = false;
@@ -18,6 +19,13 @@ class ScreenTasks
             GetChosenOption(ref tasks, ref option, ref exit);
         } while (!exit);
         menu.Run();
+    }
+    public void ConfigureConsole()
+    {
+        Console.Title = "Agenda 2018 - Tasks to Do";
+        Console.SetWindowSize(81, 25);
+        Console.SetBufferSize(81, 25);
+        Console.CursorVisible = false;
     }
     private void Add()
     {
@@ -39,6 +47,7 @@ class ScreenTasks
         int priority = 0;
         if (answer != "")
             priority = Convert.ToInt32(answer);
+
         Console.Write("Confidential: ");
         answer = Console.ReadLine();
         bool confidential = false;
@@ -49,15 +58,16 @@ class ScreenTasks
 
         tasks.Add(new Task(
             description, dateStart, dateDue, category, priority, confidential));
+        tasks.Save();
     }
 
     private void Modify(int index)
     {
-        Task taskToModify = tasks.Get(taskActual);
+        Task taskToModify = tasks.Get(index);
 
         Console.Clear();
 
-        config.WriteFore(0,4, "Description", "white", false);
+        config.WriteFore(0,4, "Description: ", "white", false);
         Console.Write("  ");
 
         Console.ForegroundColor = ConsoleColor.Gray;
@@ -71,7 +81,7 @@ class ScreenTasks
         Console.Write("  ");
 
         Console.ForegroundColor = ConsoleColor.Gray;
-        Console.WriteLine("Enter new DateStart (was {0})",
+        Console.WriteLine("Enter new dateStart (was {0})",
             taskToModify.DateStart);
         answer = Console.ReadLine();
         if (answer != "")
@@ -91,7 +101,7 @@ class ScreenTasks
         Console.Write("  ");
 
         Console.ForegroundColor = ConsoleColor.Gray;
-        Console.WriteLine("Enter new Category (was {0})",
+        Console.WriteLine("Enter new category (was {0})",
             taskToModify.Category);
         answer = Console.ReadLine();
         if (answer != "")
@@ -121,19 +131,19 @@ class ScreenTasks
         else if (answer == "no")
             taskToModify.Confidential = false;
 
-        tasks.Set(taskActual, taskToModify);
+        tasks.Set(index, taskToModify);
 
     }
 
     private void Delete(int option)
     {
         tasks.Delete(option - 1);
+        Sort();
     }
 
     private void Sort()
     {
-        TasksList task = new TasksList();
-        task.Tasks.Sort();
+        tasks.Tasks.Sort();
     }
 
     private void Search()
@@ -159,52 +169,73 @@ class ScreenTasks
         Console.SetCursorPosition(0, 0);
         Console.ForegroundColor = ConsoleColor.White;
     }
+    private void SetConsoleEmpty()
+    {
+        Console.Clear();
+
+        Console.BackgroundColor = ConsoleColor.Blue;
+        for (int i = 0; i < Console.WindowHeight; i++)
+        {
+            Console.Write(new string(' ', Console.WindowWidth));
+        }
+
+        Console.SetCursorPosition(0, 0);
+        Console.ForegroundColor = ConsoleColor.White;
+    }
     private void DisplayTaskList(TasksList Tasks, int option)
     {
-        
-
         string line = new string('-', Console.WindowWidth);
         string helpLine1 = "1-Add  2-Modify  3-Delete  4-Search  Esc-Exit";
         string helpLine2 = "7-Listados";
 
         if(Tasks.Count == 0)
         {
+            SetConsoleEmpty();
             Console.WriteLine("Not dates");
 
             Console.Write("Do you want add first record(yes/no): ");
             string answer = Console.ReadLine();
             if (answer == "yes")
                 Add();
+            else if (answer == "no")
+            {
+                Console.WriteLine("Okey. See you!");
+                Console.WriteLine("Pres ESC to return.");
+            }
         }
-        SetConsole();
-
-        int x = 2;
-        int y = 1;
-        for (int i = 0; i < Tasks.Count; i++)
+        else
         {
-            config.WriteFore(x, y + i, "white");
-            if (i == option - 1)///
+            SetConsole();
+
+            int x = 2;
+            int y = 1;
+            for (int i = 0; i < Tasks.Count; i++)
             {
-                config.WriteBack("green");
-                config.WriteFore(Tasks.Tasks[i].Description + " (" +
-                    Tasks.Tasks[i].DateDue + ")", "white", false);
+                config.WriteFore(x, y + i, "white");
+                if (i == option - 1)///
+                {
+                    config.WriteBack("green");
+                    config.WriteFore(Tasks.Tasks[i].Description + " (" +
+                        Tasks.Tasks[i].DateDue + ")", "white", false);
+                }
+                else
+                {
+                    config.WriteBack(Tasks.Tasks[i].Description + " (" +
+                        Tasks.Tasks[i].DateDue + ")", "blue", false);
+                }
+                Console.ResetColor();
             }
-            else
-            {
-                config.WriteBack(Tasks.Tasks[i].Description + " (" +
-                    Tasks.Tasks[i].DateDue + ")", "blue", false);
-            }
-            Console.ResetColor();
+
+            config.WriteBack("blue");
+            config.WriteFore("white");
+            config.WriteBack(0, (Console.WindowHeight - 4), line, false);
+            config.WriteBack(Console.WindowWidth / 2 -
+                (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
+            config.WriteBack(Console.WindowWidth / 2 -
+                (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
+
+            ShowTaskCursor(Tasks, option);
         }
-
-        config.WriteBack(0, (Console.WindowHeight - 4), line, false);
-        config.WriteBack(Console.WindowWidth / 2 -
-            (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
-        config.WriteBack(Console.WindowWidth / 2 -
-            (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
-
-        ShowTaskCursor(Tasks, option);
- 
     }
 
     private void ShowTaskCursor(TasksList tasksList, int option)
@@ -260,7 +291,6 @@ class ScreenTasks
                 checkVacio(tasks.Get(option).Confidential), "gray", true);
             contCamps = 0;
 
-            Console.ResetColor();
         }
         catch (Exception e)
         {
@@ -293,13 +323,18 @@ class ScreenTasks
 
     private string checkVacio(bool lineToCheck)
     {
+        string answer = "";
         if (lineToCheck.ToString() == "")
         {
-            return "(Por Confirmar)";
+            return answer = "(Por Confirmar)";
         }
         else
         {
-            return lineToCheck.ToString();
+            if (lineToCheck)
+                answer = "Yes";
+            else if (!lineToCheck)
+                answer = "No";
+            return answer;
         }
     }
     private void GetChosenOption(ref TasksList Task, 
@@ -319,7 +354,7 @@ class ScreenTasks
                 Task.Save();
                 break;
             case ConsoleKey.NumPad1: Add(); break;
-            case ConsoleKey.NumPad2: Modify(taskActual); break;
+            case ConsoleKey.NumPad2: Modify(option); break;
             case ConsoleKey.NumPad3: Delete(option);break;
             case ConsoleKey.NumPad4: Search();break;
             case ConsoleKey.NumPad5: DisplayTaskList(Task, option);break;

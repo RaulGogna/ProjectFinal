@@ -9,7 +9,6 @@ class TasksList
 {
     public List<Task> Tasks { get; set; }
     public int Count { get; set; }
-
     public TasksList()
     {
         Load();
@@ -51,7 +50,6 @@ class TasksList
         {
             Tasks.RemoveAt(o);
             Count--;
-            Tasks.Sort();
         }
         catch (Exception)
         {

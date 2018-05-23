@@ -1,5 +1,7 @@
 // 22/05/2018 - RaulGogna, V.01 created constructor, and Properties
 using System;
+
+[Serializable]
 class Contact : IComparable
 {
     // Attributes

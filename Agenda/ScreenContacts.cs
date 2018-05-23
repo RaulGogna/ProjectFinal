@@ -5,10 +5,10 @@ class ScreenContacts
     MenuScreen menu = new MenuScreen();
     ConfigurationConsole config = new ConfigurationConsole();
     public ContactsList listContact;
-    public int actualContact = 0;
 
     public void Run()
     {
+        ConfigureConsole();
         listContact = new ContactsList();
         int option = 1;
         bool exit = false;
@@ -19,7 +19,13 @@ class ScreenContacts
         } while (!exit);
         menu.Run();
     }
-
+    public void ConfigureConsole()
+    {
+        Console.Title = "Agenda 2018 - Contacts";
+        Console.SetWindowSize(81, 25);
+        Console.SetBufferSize(81, 25);
+        Console.CursorVisible = false;
+    }
     private void SetConsole()
     {
         Console.Clear();
@@ -34,6 +40,19 @@ class ScreenContacts
                 Console.SetCursorPosition((Console.WindowWidth / 2), i);
                 Console.Write("|" + new string(' ', Console.WindowWidth / 2));
             }
+        }
+
+        Console.SetCursorPosition(0, 0);
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+    private void SetConsoleEmpty()
+    {
+        Console.Clear();
+
+        Console.BackgroundColor = ConsoleColor.Blue;
+        for (int i = 0; i < Console.WindowHeight; i++)
+        {
+            Console.Write(new string(' ', Console.WindowWidth));
         }
 
         Console.SetCursorPosition(0, 0);
@@ -72,11 +91,11 @@ class ScreenContacts
 
         listContact.Add(new Contact(
             name, email, age, telephone, adress, country, observations));
-        
+        listContact.Save();
     }
     private void Modify(int index)
     {
-        Contact contactToModify = listContact.Get(actualContact);
+        Contact contactToModify = listContact.Get(index);
 
         Console.Clear();
 
@@ -134,6 +153,7 @@ class ScreenContacts
         config.WriteFore("Country: ", "white", false);
         Console.Write("  ");
 
+        Console.ForegroundColor = ConsoleColor.Gray;
         Console.WriteLine("Enter new country (was {0})",
             contactToModify.Country);
         answer = Console.ReadLine();
@@ -143,6 +163,7 @@ class ScreenContacts
         config.WriteFore("Observations: ", "white", false);
         Console.Write("  ");
 
+        Console.ForegroundColor = ConsoleColor.Gray;
         Console.WriteLine("Enter new observations (was {0})",
             contactToModify.Observations);
         answer = Console.ReadLine();
@@ -153,49 +174,60 @@ class ScreenContacts
     }
     private void DisplayContactsList(ContactsList Contacts, int option)
     {
-        Console.Clear();
         string line = new string('-', Console.WindowWidth);
         string helpLine1 = "1-Add  2-Modify  3-Delete  4-Search  Esc-Exit";
         string helpLine2 = "7-Listados";
 
         if (listContact.Count == 0)
         {
+            SetConsoleEmpty();
+
             Console.WriteLine("Not dates");
 
             Console.Write("Do you want add first record(yes/no): ");
-            string answer = Console.ReadLine();
+            string answer = Console.ReadLine().ToLower();
             if (answer == "yes")
                 Add();
+            else if (answer == "no")
+            {
+                Console.WriteLine("Okey. See you!");
+                Console.WriteLine("Press Esc to return.");
+            }
         }
-        SetConsole();
-
-        int x = 2;
-        int y = 1;
-        for (int i = 0; i < listContact.Count; i++)
+        else
         {
-            config.WriteFore(x, y + i, "white");
-            if (i == option - 1)///
+            SetConsole();
+
+            int x = 2;
+            int y = 1;
+            for (int i = 0; i < listContact.Count; i++)
             {
-                config.WriteBack("green");
-                config.WriteFore(listContact.Contacts[i].Name + " (" +
-                    listContact.Contacts[i].Telephone + ")", "white", false);
+                config.WriteFore(x, y + i, "white");
+                if (i == option - 1)///
+                {
+                    config.WriteBack("green");
+                    config.WriteFore(listContact.Contacts[i].Name + " (" +
+                        listContact.Contacts[i].Telephone + ")", "white", false);
+                }
+                else
+                {
+                    config.WriteBack(listContact.Contacts[i].Name + " (" +
+                        listContact.Contacts[i].Telephone + ")", "blue", false);
+                }
+                Console.ResetColor();
             }
-            else
-            {
-                config.WriteBack(listContact.Contacts[i].Name + " (" +
-                    listContact.Contacts[i].Telephone + ")", "blue", false);
-            }
-            Console.ResetColor();
+
+            config.WriteBack("blue");
+            config.WriteFore("white");
+            config.WriteBack(0, (Console.WindowHeight - 4), line, false);
+            config.WriteBack(Console.WindowWidth / 2 -
+                (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
+            config.WriteBack(Console.WindowWidth / 2 -
+                (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
+
+            //Program body
+            ShowContactCursor(Contacts, option);
         }
-
-        config.WriteBack(0, (Console.WindowHeight - 4), line, false);
-        config.WriteBack(Console.WindowWidth / 2 -
-            (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
-        config.WriteBack(Console.WindowWidth / 2 -
-            (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
-
-        //Program body
-        ShowContactCursor(Contacts, option);
     }
 
     private void ShowContactCursor(ContactsList contacts, int option)
@@ -248,6 +280,7 @@ class ScreenContacts
             config.WriteFore(
                 (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 14,
                 checkVacio(listContact.Get(option).Country), "gray", true);
+            contCamps++;
 
             config.WriteFore((Console.WindowWidth / 2 + 2), 16,
                 camps[contCamps], "white", false);
@@ -256,7 +289,6 @@ class ScreenContacts
                 checkVacio(listContact.Get(option).Observations), "gray", true);
             contCamps = 0;
 
-            Console.ResetColor();
         }
         catch (Exception e)
         {
@@ -285,6 +317,7 @@ class ScreenContacts
     private void Delete(int option)
     {
         listContact.Delete(option - 1);
+        Sort();
     }
     public void Sort()
     {

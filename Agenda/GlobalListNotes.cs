@@ -1,29 +1,32 @@
-//22-05-2018 - RaulGogna, V.01 Implemented methods
+﻿//2 23/05/2018 - RaulGogna, V.01 Functions save and load and get, set of properties
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-class ContactsList
-{
-    public List<Contact> Contacts { get; set; }
-    public int Count { get; set; }
+using System.IO;
 
-    public ContactsList()
+
+class GlobalListNotes
+{
+    public List<NotesList> GlobalList { get; set; }
+    public int Count { get; set; }
+    public GlobalListNotes()
     {
         Load();
-        Count = Contacts.Count;
+        Count = GlobalList.Count;
     }
-    public void Add(Contact contactToAdd)
+
+    public void Add(NotesList notesToAdd)
     {
-        Contacts.Add(contactToAdd);
+        GlobalList.Add(notesToAdd);
         Count++;
     }
-    public Contact Get(int index)
+
+    public NotesList Get(int index)
     {
         try
         {
-            return Contacts[index - 1];
+            return GlobalList[index - 1];
         }
         catch (Exception)
         {
@@ -31,7 +34,7 @@ class ContactsList
         }
     }
 
-    public void Set(int n, Contact contact)
+    public void Set(int n, NotesList listNotes)
     {
         if (n >= Count || n < 0)
         {
@@ -39,51 +42,35 @@ class ContactsList
         }
         else
         {
-            Contacts[n] = contact;
+            GlobalList[n] = listNotes;
             Save();
         }
     }
-
-    public void Delete(int o)
-    {
-        try
-        {
-            Contacts.RemoveAt(o);
-            Count--;
-        }
-        catch (Exception)
-        {
-            return;
-        }
-    }
-
     public void Save()
     {
         try
         {
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("Contacts.dat", FileMode.Create,
+            Stream stream = new FileStream("GlobalNotes.dat", FileMode.Create,
                 FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, Contacts);
+            formatter.Serialize(stream, GlobalList);
             stream.Close();
         }
         catch (Exception e)
         {
             Console.WriteLine("Error: " + e.Message);
         }
-        
     }
-
     public void Load()
     {
-        if (File.Exists("Contacts.dat"))
+        if (File.Exists("GlobalNotes.dat"))
         {
             try
             {
                 IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream("Contacts.dat", FileMode.Open, 
+                Stream stream = new FileStream("GlobalNotes.dat", FileMode.Open,
                     FileAccess.Read, FileShare.Read);
-                Contacts = (List<Contact>)formatter.Deserialize(stream);
+                GlobalList = (List<NotesList>)formatter.Deserialize(stream);
                 stream.Close();
             }
             catch (Exception)
@@ -93,7 +80,7 @@ class ContactsList
         }
         else
         {
-            Contacts = new List<Contact>();
+            GlobalList = new List<NotesList>();
         }
     }
 }
