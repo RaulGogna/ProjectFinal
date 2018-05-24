@@ -1,6 +1,6 @@
 //24/05/2018 - RaulGogna, V.01 Implemented all functions
+//24/05/2018 - RaulGogna, V.02 Improve minor corrections of visualization
 using System;
-using System.Collections.Generic;
 using System.Linq;
 class ScreenNotes
 {
@@ -31,7 +31,7 @@ class ScreenNotes
         do
         {
             DisplayActualNote(notesList, option);
-            GetChosenOption(ref notesList, ref option, ref changeNote,ref exit);
+            GetChosenOption(ref notesList, ref option, ref changeNote, ref exit);
         } while (!exit);
         menu.Run();
     }
@@ -42,16 +42,18 @@ class ScreenNotes
         Console.SetWindowSize(81, 25);
         Console.CursorVisible = false;
     }
-    private void SetConsole(NotesList notes, int option)
+    private void SetConsole(NotesList notes)
     {
+        Console.ResetColor();
         Console.Clear();
+
 
         Console.BackgroundColor = ConsoleColor.Blue;
         for (int i = 0; i < Console.WindowHeight; i++)
         {
             Console.Write(new string(' ', Console.WindowWidth));
             //To draw bar vertical in middle of screen
-            if (i <= 21)
+            if (i <= 23)
             {
                 Console.SetCursorPosition((Console.WindowWidth / 2), i);
                 Console.Write("|" + new string(' ', Console.WindowWidth / 2));
@@ -65,14 +67,17 @@ class ScreenNotes
             }
             if (i == 1)
             {
-                config.WriteBack((Console.WindowWidth / 2) -
-                    notes.Notes[option].Title.Length / 2, i, 
-                    notes.Notes[option].Title);
+                config.WriteBack((Console.WindowWidth / 2 - 20) -
+                    notes.Notes[noteActual].Title.Length / 2, i,
+                    notes.Notes[noteActual].Title, true);
             }
-            if(i == 22)
+            if (i == 22)
             {
-                Console.SetCursorPosition(Console.WindowWidth / 2 - 20, i);
-                Console.Write("Page " + option + " of " + notes.NumPages);
+                string page = "Page " + noteActual + " of " + notes.NumPages;
+                Console.SetCursorPosition(Console.WindowWidth / 2 - 25, i);
+                Console.Write(page + new string(' ', 10));
+                Console.SetCursorPosition(Console.WindowWidth / 2 + 1, i);
+                Console.Write(new string(' ', Console.WindowWidth / 2 - 1));
             }
         }
 
@@ -122,19 +127,18 @@ class ScreenNotes
         notesList.Add(new Note(title, description, category,
             confidential, done));
         notesList.Save();
-
     }
 
     public void Modify(int option)
     {
-
+        //To do
     }
 
     public void DisplayActualNote(NotesList notes, int option)
     {
-        string line = new string('-', Console.WindowWidth / 2);
+        string line = new string('-', Console.WindowWidth);
         string helpLine1 = "1 - Add  2 - Modify  3 - Delete  4 - Category";
-        string helpLine2 = "<-- --> - Change Note  ";
+        string helpLine2 = "<-- --> - Change Note  Esc-Exit";
 
 
         if (notes.Count == 0)
@@ -154,28 +158,30 @@ class ScreenNotes
         }
         else
         {
-            SetConsole(notes, option);
-            config.WriteBack(0, 3, "Completed items: ", true);
-
+            SetConsole(notes);
+            config.WriteBack(0, 2, "Completed items: ", false);
+            int x = 0, y = 4;
             for (int i = 0; i < notesList.Count; i++)
             {
-                if(notesList.Notes[i].Title == notesList.Notes[option].Title && 
-                    notesList.Notes[i].Category == 
-                    notesList.Notes[option].Category && 
+                if (notesList.Notes[i].Title ==
+                    notesList.Notes[noteActual].Title &&
+                    notesList.Notes[i].Category ==
+                    notesList.Notes[noteActual].Category &&
                     notesList.Notes[i].Done == true)
                 {
-                    Console.SetCursorPosition(0, i + 4);
-                    Console.WriteLine(i + 1 + "." + 
+                    Console.SetCursorPosition(x, y);
+                    Console.WriteLine((i + 1) + "." +
                         notesList.Notes[i].Description);
+                    y++;
                 }
             }
             config.WriteBack("blue");
             config.WriteFore("white");
-            config.WriteBack(0, (Console.WindowHeight - 2), line, false);
+            config.WriteBack(0, (Console.WindowHeight - 3), line, false);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine1.Length / 2), Console.WindowHeight - 1, helpLine1, true);
+             (helpLine1.Length / 2), Console.WindowHeight - 2, helpLine1, false);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine2.Length / 2), Console.WindowHeight, helpLine2, true);
+             (helpLine2.Length / 2), Console.WindowHeight - 1, helpLine2, false);
         }
     }
 
@@ -194,7 +200,7 @@ class ScreenNotes
         //To DO
     }
 
-    public void GetChosenOption(ref NotesList notes, ref int option, 
+    public void GetChosenOption(ref NotesList notes, ref int option,
         ref int changeNote, ref bool exit)
     {
         ConsoleKeyInfo key;
@@ -231,5 +237,3 @@ class ScreenNotes
         }
     }
 }
-///Foreach
-/// if(tal.Done == true && tal.Title = )
