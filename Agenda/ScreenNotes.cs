@@ -136,7 +136,6 @@ class ScreenNotes
         string helpLine1 = "1 - Add  2 - Modify  3 - Delete  4 - Category";
         string helpLine2 = "<-- --> - Change Note  ";
 
-        
 
         if (notes.Count == 0)
         {
@@ -158,13 +157,25 @@ class ScreenNotes
             SetConsole(notes, option);
             config.WriteBack(0, 3, "Completed items: ", true);
 
+            for (int i = 0; i < notesList.Count; i++)
+            {
+                if(notesList.Notes[i].Title == notesList.Notes[option].Title && 
+                    notesList.Notes[i].Category == 
+                    notesList.Notes[option].Category && 
+                    notesList.Notes[i].Done == true)
+                {
+                    Console.SetCursorPosition(0, i + 4);
+                    Console.WriteLine(i + 1 + "." + 
+                        notesList.Notes[i].Description);
+                }
+            }
             config.WriteBack("blue");
             config.WriteFore("white");
-            config.WriteBack(0, (Console.WindowHeight - 4), line, false);
+            config.WriteBack(0, (Console.WindowHeight - 2), line, false);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
+             (helpLine1.Length / 2), Console.WindowHeight - 1, helpLine1, true);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
+             (helpLine2.Length / 2), Console.WindowHeight, helpLine2, true);
         }
     }
 
