@@ -53,7 +53,6 @@
     <Compile Include="Event.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="EventsList.cs" />
-    <Compile Include="GlobalListNotes.cs" />
     <Compile Include="ImportCalendar.cs" />
     <Compile Include="ImportContacts.cs" />
     <Compile Include="MenuScreen.cs" />

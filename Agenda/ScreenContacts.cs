@@ -221,9 +221,9 @@ class ScreenContacts
             config.WriteFore("white");
             config.WriteBack(0, (Console.WindowHeight - 4), line, false);
             config.WriteBack(Console.WindowWidth / 2 -
-                (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
+             (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
             config.WriteBack(Console.WindowWidth / 2 -
-                (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
+             (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
 
             //Program body
             ShowContactCursor(Contacts, option);
@@ -340,7 +340,6 @@ class ScreenContacts
             case ConsoleKey.NumPad2: Modify(option); break;
             case ConsoleKey.NumPad3: Delete(option); break;
             //case ConsoleKey.NumPad4: Search(); break;
-            case ConsoleKey.NumPad5: DisplayContactsList(Contacts, option);break;
             case ConsoleKey.Escape:
                 exit = true;
                 Contacts.Save();

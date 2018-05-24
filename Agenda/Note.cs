@@ -26,16 +26,6 @@ class Note : IComparable
 
     public int CompareTo(Object n2)
     {
-        // Same title?
-        if (String.Compare(Title, ((Note)n2).Title, true) == 0)
-        {
-            // Sort on category if the title is the same
-            return String.Compare(Category, ((Note)n2).Category, true);
-        }
-        //Sort 
-        else
-        {
-            return (String.Compare(Title, ((Note)n2).Title, true));
-        }
+        return (Title).CompareTo(((Note)n2).Title);
     }
 }
