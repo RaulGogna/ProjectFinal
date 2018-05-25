@@ -4,6 +4,7 @@ progression bar animation.*/
 
 using System;
 using System.Threading;
+
 class WelcomeScreen : Screen
 {
     public void Run()

@@ -3,7 +3,9 @@ and allows you to select the menu options.*/
 using System;
 class MenuScreen
 {
-
+    CreditsScreen credits = new CreditsScreen();
+    protected string[] options = {"Calendar" , "Contacts", "Task to do","Notes",
+                            "Configuration", "Credtis"};
     public void Run()
     {
         ConfigureConsole();
@@ -38,10 +40,14 @@ class MenuScreen
                     break;
                 case 5:
                     ConfigurationConsole config = new ConfigurationConsole();
-                    config.Run();
+                    break;
+                case 6:
+                    CreditsScreen credits = new CreditsScreen();
+                    credits.Run();
                     break;
                 case 0:
-                    exit = true; break;
+                    exit = true;
+                    break;
                 default: break;
             }
         } while (!exit);
@@ -87,10 +93,9 @@ class MenuScreen
     {
         int x = Console.WindowWidth / 2 - 7;
         int y = Console.WindowHeight / 2 - 2;
-        string[] option = {"Calendar" , "Contacts", "Task to do", "Notes",
-                            "Configuration"};
+        
 
-        for (int i = 0; i < option.Length; i++)
+        for (int i = 0; i < options.Length; i++)
         {
             Console.SetCursorPosition(x, y + i);
             Console.ForegroundColor = ConsoleColor.White;
@@ -98,12 +103,12 @@ class MenuScreen
             {
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write(option[i]);
+                Console.Write(options[i]);
             }
             else
             {
                 Console.BackgroundColor = ConsoleColor.Blue;
-                Console.Write(option[i]);
+                Console.Write(options[i]);
             }
             Console.ResetColor();
         }
@@ -130,7 +135,7 @@ class MenuScreen
                     selectedOption = true;
                     break;
                 case ConsoleKey.DownArrow:
-                    if (option < 5)
+                    if (option < options.Length)
                         option++;
                     else
                         option = 1;
@@ -139,7 +144,7 @@ class MenuScreen
                     if (option > 1)
                         option--;
                     else
-                        option = 5;
+                        option = options.Length;
                     break;
                 default:
                     break;

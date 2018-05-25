@@ -71,6 +71,7 @@ class ScreenNotes
                     notes.Notes[noteActual].Title.Length / 2, i,
                     notes.Notes[noteActual].Title, true);
             }
+
             if (i == 22)
             {
                 string page = "Page " + noteActual + " of " + notes.NumPages;

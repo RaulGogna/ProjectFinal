@@ -52,7 +52,7 @@ class ConfigurationConsole
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 break;
             case "blue":
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.ForegroundColor = ConsoleColor.Blue;
                 break;
             case "blueD":
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
@@ -61,7 +61,7 @@ class ConfigurationConsole
                 Console.ForegroundColor = ConsoleColor.Red;
                 break;
             case "green":
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.ForegroundColor = ConsoleColor.Green;
                 break;
             case "greenD":
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
