@@ -14,6 +14,7 @@ class NotesList
 
     public NotesList()
     {
+        Notes = new List<Note>();
         Load();
         Count = Notes.Count;
     }
@@ -79,7 +80,7 @@ class NotesList
         }
         else
         {
-            Notes = new List<Note>();
+            Console.WriteLine("Not file found");
         }
     }
     public void Save()

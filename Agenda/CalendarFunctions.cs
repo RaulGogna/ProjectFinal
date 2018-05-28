@@ -10,7 +10,26 @@ class CalendarFunctions
 
     public  void MoveArounTheCalendar()
     {
-        //To DO
+        ConsoleKeyInfo key;
+
+        do
+        {
+            key = Console.ReadKey(true);
+        } while (Console.KeyAvailable);
+
+        switch (key.Key)
+        {
+            case ConsoleKey.Enter:
+                break;
+            case ConsoleKey.LeftArrow:
+                break;
+            case ConsoleKey.UpArrow:
+                break;
+            case ConsoleKey.RightArrow:
+                break;
+            case ConsoleKey.DownArrow:
+                break;
+        }
     }
     public  void AddTasks()
     {

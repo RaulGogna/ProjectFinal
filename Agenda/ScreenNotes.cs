@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 class ScreenNotes
 {
-    MenuScreen menu = new MenuScreen();
     ConfigurationConsole config = new ConfigurationConsole();
     public NotesList notesList;
 
@@ -33,13 +32,12 @@ class ScreenNotes
             DisplayActualNote(notesList, option);
             GetChosenOption(ref notesList, ref option, ref changeNote, ref exit);
         } while (!exit);
-        menu.Run();
     }
     public void ConfigureConsole()
     {
         Console.Title = "Agenda 2018 - Notes";
-        Console.SetBufferSize(81, 25);
-        Console.SetWindowSize(81, 25);
+        Console.SetBufferSize(80, 25);
+        Console.SetWindowSize(80, 25);
         Console.CursorVisible = false;
     }
     private void SetConsole(NotesList notes)
@@ -55,7 +53,7 @@ class ScreenNotes
             //To draw bar vertical in middle of screen
             if (i <= 23)
             {
-                Console.SetCursorPosition((Console.WindowWidth / 2), i);
+                Console.SetCursorPosition((Console.WindowWidth / 2-1), i);
                 Console.Write("|" + new string(' ', Console.WindowWidth / 2));
             }
             if (i == 2 || i == 21)

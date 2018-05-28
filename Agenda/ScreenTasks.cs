@@ -3,7 +3,6 @@
 using System;
 class ScreenTasks
 {
-    MenuScreen menu = new MenuScreen();
     ConfigurationConsole config = new ConfigurationConsole();
     public TasksList tasks;
     public void Run()
@@ -18,37 +17,36 @@ class ScreenTasks
             DisplayTaskList(tasks, option);
             GetChosenOption(ref tasks, ref option, ref exit);
         } while (!exit);
-        menu.Run();
     }
     public void ConfigureConsole()
     {
         Console.Title = "Agenda 2018 - Tasks to Do";
-        Console.SetWindowSize(81, 25);
-        Console.SetBufferSize(81, 25);
+        Console.SetWindowSize(80, 25);
+        Console.SetBufferSize(80, 25);
         Console.CursorVisible = false;
     }
     private void Add()
     {
         Console.Clear();
-        Console.Write("Description: ");
+        config.WriteFore("Description: ", "white", false);
         string description = Console.ReadLine();
 
-        Console.Write("DateStart: ");
+        config.WriteFore("DateStart: ", "white", false);
         string dateStart = Console.ReadLine();
 
-        Console.Write("DateDue: ");
+        config.WriteFore("DateDue: ", "white", false);
         string dateDue = Console.ReadLine();
 
-        Console.Write("Category: ");
+        config.WriteFore("Category: ", "white", false);
         string category = Console.ReadLine();
 
-        Console.Write("Priority: ");
-        string answer= Console.ReadLine();
+        config.WriteFore("Priority: ", "white", false);
+        string answer = Console.ReadLine();
         int priority = 0;
         if (answer != "")
             priority = Convert.ToInt32(answer);
 
-        Console.Write("Confidential: ");
+        config.WriteFore("Confidential: ", "white", false);
         answer = Console.ReadLine();
         bool confidential = false;
         if (answer == "yes")
@@ -372,10 +370,5 @@ class ScreenTasks
             default:
                 break;
         }
-    }
-
-    private void ShowInCalendar()
-    {
-        //To DO
     }
 }

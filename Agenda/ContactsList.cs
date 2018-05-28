@@ -1,9 +1,8 @@
+//28-05-2018 - RaulGogna, V.02 Implemented method of save files
 //22-05-2018 - RaulGogna, V.01 Implemented methods
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 class ContactsList
 {
     public List<Contact> Contacts { get; set; }
@@ -11,6 +10,7 @@ class ContactsList
 
     public ContactsList()
     {
+        Contacts = new List<Contact>();
         Load();
         Count = Contacts.Count;
     }
@@ -61,39 +61,72 @@ class ContactsList
     {
         try
         {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("Contacts.dat", FileMode.Create,
-                FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, Contacts);
-            stream.Close();
+            StreamWriter contactsOutput = new StreamWriter("Contacts.dat");
+            foreach (Contact c in Contacts)
+            {
+                contactsOutput.WriteLine("Contacts:" + c.Name + ";" + c.Email
+                    + ";" + c.Age + ";" + c.Telephone + ";" + c.Address +
+                    ";" + c.Country + ";" + c.Observations + ";\n");
+            }
+            contactsOutput.Close();
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine("Error: path too long");
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: file not found");
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("I/O Error: " + e.Message);
         }
         catch (Exception e)
         {
             Console.WriteLine("Error: " + e.Message);
         }
-        
     }
 
     public void Load()
     {
-        if (File.Exists("Contacts.dat"))
+        try
         {
-            try
+            StreamReader contactsInput = new StreamReader("Contacts.dat");
+            string line = "";
+            string[] contacts;
+            do
             {
-                IFormatter formatter = new BinaryFormatter();
-                Stream stream = new FileStream("Contacts.dat", FileMode.Open, 
-                    FileAccess.Read, FileShare.Read);
-                Contacts = (List<Contact>)formatter.Deserialize(stream);
-                stream.Close();
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Read fail");
-            }
+                line = contactsInput.ReadLine();
+                if (line != null)
+                {
+                    line = line.Substring(line.IndexOf(":") + 1);
+                    contacts = line.Split(';');
+                    Add(new Contact(
+                        contacts[0], contacts[1],
+                        Convert.ToInt32(contacts[2]),
+                        contacts[3], contacts[4],
+                        contacts[5], contacts[6]));
+                    line = contactsInput.ReadLine();
+                }
+            } while (line != null);
+            contactsInput.Close();
         }
-        else
+        catch (PathTooLongException)
         {
-            Contacts = new List<Contact>();
+            Console.WriteLine("Error: path too long");
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Error: file not found");
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("I/O Error: " + e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e.Message);
         }
     }
 }

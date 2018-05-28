@@ -2,7 +2,6 @@
 using System;
 class ScreenContacts
 {
-    MenuScreen menu = new MenuScreen();
     ConfigurationConsole config = new ConfigurationConsole();
     public ContactsList listContact;
 
@@ -17,13 +16,12 @@ class ScreenContacts
             DisplayContactsList(listContact, option);
             GetChosenOption(ref listContact, ref option, ref exit);
         } while (!exit);
-        menu.Run();
     }
     public void ConfigureConsole()
     {
         Console.Title = "Agenda 2018 - Contacts";
-        Console.SetWindowSize(81, 25);
-        Console.SetBufferSize(81, 25);
+        Console.SetWindowSize(80, 25);
+        Console.SetBufferSize(80, 25);
         Console.CursorVisible = false;
     }
     private void SetConsole()
@@ -62,31 +60,28 @@ class ScreenContacts
     {
         Console.Clear();
 
-        Console.Write("Name: ");
+        config.WriteFore("Name: ", "white", false);
         string name = Console.ReadLine();
 
-        Console.Write("Email: ");
+        config.WriteFore("Email: ", "white", false);
         string email = Console.ReadLine();
 
-        Console.Write("Age: ");
+        config.WriteFore("Age: ", "white", false);
         string answer = Console.ReadLine();
         int age = 0;
         if (answer != "")
             age = Convert.ToInt32(answer);
 
-        Console.Write("Telephone: ");
-        answer = Console.ReadLine();
-        int telephone = 0;
-        if (answer != "")
-            telephone = Convert.ToInt32(answer);
+        config.WriteFore("Telephone: ", "white", false);
+        string telephone = Console.ReadLine();
 
-        Console.Write("Adress: ");
+        config.WriteFore("Address: ", "white", false);
         string adress = Console.ReadLine();
 
-        Console.Write("Country: ");
+        config.WriteFore("Country: ", "white", false);
         string country = Console.ReadLine();
 
-        Console.Write("Observations: ");
+        config.WriteFore("Observations: ", "white", false);
         string observations = Console.ReadLine();
 
         listContact.Add(new Contact(
@@ -138,7 +133,7 @@ class ScreenContacts
             contactToModify.Telephone);
         answer = Console.ReadLine();
         if (answer != "")
-            contactToModify.Telephone = Convert.ToInt32(answer);
+            contactToModify.Telephone = answer;
 
         config.WriteFore("Address: ", "white", false);
         Console.Write("  ");

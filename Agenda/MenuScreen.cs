@@ -3,7 +3,7 @@ and allows you to select the menu options.*/
 using System;
 class MenuScreen
 {
-    CreditsScreen credits = new CreditsScreen();
+    
     protected string[] options = {"Calendar" , "Contacts", "Task to do","Notes",
                             "Configuration", "Credtis"};
     public void Run()
@@ -40,6 +40,7 @@ class MenuScreen
                     break;
                 case 5:
                     ConfigurationConsole config = new ConfigurationConsole();
+                    config.Run();
                     break;
                 case 6:
                     CreditsScreen credits = new CreditsScreen();
@@ -56,8 +57,8 @@ class MenuScreen
     public void ConfigureConsole()
     {
         Console.Title = "Agenda 2018";
-        Console.SetWindowSize(81, 25);
-        Console.SetBufferSize(81, 25);
+        Console.SetWindowSize(80, 25);
+        Console.SetBufferSize(80, 25);
         Console.CursorVisible = false;
     }
 

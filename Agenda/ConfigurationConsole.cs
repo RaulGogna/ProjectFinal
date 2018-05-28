@@ -4,7 +4,6 @@
 using System;
 class ConfigurationConsole
 {
-    MenuScreen menu;
     public static string colorChangedBack = "greenD";
     public static string colorChangedFore = "blueD";
     public string SwitchBa(string color)
@@ -205,8 +204,6 @@ class ConfigurationConsole
                     break;
             }
         } while (!exit);
-        menu = new MenuScreen();
-        menu.Run();
     }
 
     public void PrintBorders()

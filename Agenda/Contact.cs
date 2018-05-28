@@ -12,7 +12,7 @@ class Contact : IComparable
 
     public int Age { get; set; }
 
-    public int Telephone { get; set; }
+    public string Telephone { get; set; }
 
     public string Address { get; set; }
 
@@ -20,7 +20,7 @@ class Contact : IComparable
 
     public string Observations { get; set; }
 
-    public Contact(string name, string email, int age, int telephone, 
+    public Contact(string name, string email, int age, string telephone, 
         string adress, string country, string observations)
     {
         Name = name;
