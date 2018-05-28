@@ -89,10 +89,7 @@ class ScreenCalendar
     {
         Console.Clear();
         DateTime searchDay = new DateTime();
-        searchDay = new DateTime(
-            Convert.ToInt32(dayS.ToString("dd")),
-            Convert.ToInt32(monthS.ToString("MM")),
-            Convert.ToInt32(yearS.ToString("yyyy")));
+        searchDay = new DateTime(yearS, monthS, dayS);
 
         SetConsole();
 
@@ -243,7 +240,7 @@ class ScreenCalendar
 
         switch (key.Key)
         {
-            //case ConsoleKey.S: functions.SearchByDay(); break;
+            case ConsoleKey.S: CurrentDay(); break;
             case ConsoleKey.Escape: exit = true; break;
             case ConsoleKey.Enter: functions.OpenDay(); break;
             case ConsoleKey.V: functions.ChangeVisualization(); break;

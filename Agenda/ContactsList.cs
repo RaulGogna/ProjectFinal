@@ -66,7 +66,7 @@ class ContactsList
             {
                 contactsOutput.WriteLine("Contacts:" + c.Name + ";" + c.Email
                     + ";" + c.Age + ";" + c.Telephone + ";" + c.Address +
-                    ";" + c.Country + ";" + c.Observations + ";\n");
+                    ";" + c.Country + ";" + c.Observations + "\n");
             }
             contactsOutput.Close();
         }
@@ -93,13 +93,15 @@ class ContactsList
         try
         {
             StreamReader contactsInput = new StreamReader("Contacts.dat");
-            string line = "";
+            string line;
             string[] contacts;
             do
             {
                 line = contactsInput.ReadLine();
                 if (line != null)
                 {
+                    /*To extract the data from when you find two points in the 
+                     * text file.*/
                     line = line.Substring(line.IndexOf(":") + 1);
                     contacts = line.Split(';');
                     Add(new Contact(
@@ -107,7 +109,6 @@ class ContactsList
                         Convert.ToInt32(contacts[2]),
                         contacts[3], contacts[4],
                         contacts[5], contacts[6]));
-                    line = contactsInput.ReadLine();
                 }
             } while (line != null);
             contactsInput.Close();

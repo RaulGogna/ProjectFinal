@@ -45,6 +45,7 @@ class CalendarFunctions
 
         Console.WriteLine("What date do you want to see: ");
         string[] date = Console.ReadLine().Split('/');
+        
         int day = Convert.ToInt32(date[0]);
         int month = Convert.ToInt32(date[1]);
         int year = Convert.ToInt32(date[2]);
