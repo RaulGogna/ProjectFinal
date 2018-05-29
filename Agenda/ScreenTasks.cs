@@ -55,7 +55,7 @@ class ScreenTasks
             confidential = false;
 
         tasks.Add(new Task(
-            description, dateStart, dateDue, category, priority, confidential));
+           description, dateStart, dateDue, category, priority, confidential));
         tasks.Save();
     }
 
@@ -228,9 +228,9 @@ class ScreenTasks
             config.WriteFore("white");
             config.WriteBack(0, (Console.WindowHeight - 4), line, false);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
+            (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
+            (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
 
             ShowTaskCursor(Tasks, option);
         }
@@ -245,7 +245,7 @@ class ScreenTasks
         try
         {
             int contCamps = 0;
-            config.WriteFore((Console.WindowWidth / 2 + 2), 4, camps[contCamps],
+            config.WriteFore((Console.WindowWidth / 2 + 2), 4,camps[contCamps],
                 "white", false);
             config.WriteFore(
                 (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 4,
@@ -253,14 +253,14 @@ class ScreenTasks
             contCamps++;
 
             Console.WriteLine();
-            config.WriteFore((Console.WindowWidth / 2 + 2), 7, camps[contCamps],
+            config.WriteFore((Console.WindowWidth / 2 + 2), 7,camps[contCamps],
                 "white", false);
             config.WriteFore(
                 (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 7,
                 checkVacio(tasks.Get(option).DateStart), "gray", true);
             contCamps++;
 
-            config.WriteFore((Console.WindowWidth / 2 + 2), 8, camps[contCamps],
+            config.WriteFore((Console.WindowWidth / 2 + 2), 8,camps[contCamps],
                 "white", false);
             config.WriteFore(
                 (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 8,

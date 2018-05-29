@@ -30,7 +30,7 @@ class ScreenNotes
         do
         {
             DisplayActualNote(notesList, option);
-            GetChosenOption(ref notesList, ref option, ref changeNote, ref exit);
+            GetChosenOption(ref notesList, ref option,ref changeNote,ref exit);
         } while (!exit);
     }
     public void ConfigureConsole()
@@ -178,9 +178,9 @@ class ScreenNotes
             config.WriteFore("white");
             config.WriteBack(0, (Console.WindowHeight - 3), line, false);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine1.Length / 2), Console.WindowHeight - 2, helpLine1, false);
+            (helpLine1.Length / 2), Console.WindowHeight - 2, helpLine1,false);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine2.Length / 2), Console.WindowHeight - 1, helpLine2, false);
+            (helpLine2.Length / 2), Console.WindowHeight - 1, helpLine2,false);
         }
     }
 

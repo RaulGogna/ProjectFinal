@@ -202,12 +202,12 @@ class ScreenContacts
                 {
                     config.WriteBack("green");
                     config.WriteFore(listContact.Contacts[i].Name + " (" +
-                        listContact.Contacts[i].Telephone + ")", "white", false);
+                      listContact.Contacts[i].Telephone + ")", "white", false);
                 }
                 else
                 {
                     config.WriteBack(listContact.Contacts[i].Name + " (" +
-                        listContact.Contacts[i].Telephone + ")", "blue", false);
+                       listContact.Contacts[i].Telephone + ")", "blue", false);
                 }
                 Console.ResetColor();
             }
@@ -216,9 +216,9 @@ class ScreenContacts
             config.WriteFore("white");
             config.WriteBack(0, (Console.WindowHeight - 4), line, false);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
+            (helpLine1.Length / 2), Console.WindowHeight - 3, helpLine1, true);
             config.WriteBack(Console.WindowWidth / 2 -
-             (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
+            (helpLine2.Length / 2), Console.WindowHeight - 2, helpLine2, true);
 
             //Program body
             ShowContactCursor(Contacts, option);
@@ -233,7 +233,7 @@ class ScreenContacts
         try
         {
             int contCamps = 0;
-            config.WriteFore((Console.WindowWidth / 2 + 2), 4, camps[contCamps],
+            config.WriteFore((Console.WindowWidth / 2 + 2), 4,camps[contCamps],
                 "white", false);
             config.WriteFore(
                 (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 4,
@@ -241,14 +241,14 @@ class ScreenContacts
             contCamps++;
 
             Console.WriteLine();
-            config.WriteFore((Console.WindowWidth / 2 + 2), 7, camps[contCamps],
+            config.WriteFore((Console.WindowWidth / 2 + 2), 7,camps[contCamps],
                 "white", false);
             config.WriteFore(
                 (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 7,
                 checkVacio(listContact.Get(option).Email), "gray", true);
             contCamps++;
 
-            config.WriteFore((Console.WindowWidth / 2 + 2), 8, camps[contCamps],
+            config.WriteFore((Console.WindowWidth / 2 + 2), 8,camps[contCamps],
                 "white", false);
             config.WriteFore(
                 (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 8,
@@ -280,8 +280,8 @@ class ScreenContacts
             config.WriteFore((Console.WindowWidth / 2 + 2), 16,
                 camps[contCamps], "white", false);
             config.WriteFore(
-                (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 16,
-                checkVacio(listContact.Get(option).Observations), "gray", true);
+               (Console.WindowWidth / 2 + (camps[contCamps].Length + 4)), 16,
+               checkVacio(listContact.Get(option).Observations), "gray", true);
             contCamps = 0;
 
         }

@@ -4,7 +4,7 @@ using System;
 class MenuScreen
 {
     
-    protected string[] options = {"Calendar" , "Contacts", "Task to do","Notes",
+    private string[] options = {"Calendar" , "Contacts", "Task to do","Notes",
                             "Configuration", "Credtis"};
     public void Run()
     {
