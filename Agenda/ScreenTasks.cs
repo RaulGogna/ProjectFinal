@@ -25,7 +25,7 @@ class ScreenTasks
         Console.SetBufferSize(80, 25);
         Console.CursorVisible = false;
     }
-    private void Add()
+    public void Add()
     {
         Console.Clear();
         config.WriteFore("Description: ", "white", false);
@@ -59,7 +59,7 @@ class ScreenTasks
         tasks.Save();
     }
 
-    private void Modify(int index)
+    public void Modify(int index)
     {
         Task taskToModify = tasks.Get(index);
 
@@ -167,7 +167,7 @@ class ScreenTasks
         Console.SetCursorPosition(0, 0);
         Console.ForegroundColor = ConsoleColor.White;
     }
-    private void SetConsoleEmpty()
+    public void SetConsoleEmpty()
     {
         Console.Clear();
 
@@ -180,7 +180,7 @@ class ScreenTasks
         Console.SetCursorPosition(0, 0);
         Console.ForegroundColor = ConsoleColor.White;
     }
-    private void DisplayTaskList(TasksList Tasks, int option)
+    public void DisplayTaskList(TasksList Tasks, int option)
     {
         string line = new string('-', Console.WindowWidth);
         string helpLine1 = "1-Add  2-Modify  3-Delete  4-Search  Esc-Exit";
@@ -236,7 +236,7 @@ class ScreenTasks
         }
     }
 
-    private void ShowTaskCursor(TasksList tasksList, int option)
+    public virtual void ShowTaskCursor(TasksList tasksList, int option)
     {
         string[] camps = { "Description:", "DateStart:", "DateDue:",
             "Category:", "Priority:", "Confidential:"};
@@ -295,7 +295,7 @@ class ScreenTasks
             Console.WriteLine("Error: " + e.Message);
         }
     }
-    private string checkVacio(string lineToCheck)
+    public string checkVacio(string lineToCheck)
     {
         if (lineToCheck == "" || lineToCheck == null)
         {
@@ -307,7 +307,7 @@ class ScreenTasks
         }
     }
 
-    private string checkVacio(int lineToCheck)
+    public string checkVacio(int lineToCheck)
     {
         if (lineToCheck == 0)
         {
@@ -319,7 +319,7 @@ class ScreenTasks
         }
     }
 
-    private string checkVacio(bool lineToCheck)
+    public string checkVacio(bool lineToCheck)
     {
         string answer = "";
         if (lineToCheck.ToString() == "")

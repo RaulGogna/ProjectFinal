@@ -26,6 +26,6 @@ class CalendarFunctions
         int month = Convert.ToInt32(date[1]);
         int year = Convert.ToInt32(date[2]);
 
-        screenCal.ShowDay(day, month, year);
+        //screenCal.ShowDay(day, month, year);
     }
 }

@@ -9,6 +9,7 @@ class ScreenCalendar
 {
     CalendarFunctions functions;
     ConfigurationConsole config;
+    ScreenTasks tasks = new ScreenTasks();
     public List<Month> months = new List<Month>();
     public static TasksList tasksList = new TasksList();
     public static int day, mounthD = 0, year = 0;
@@ -18,7 +19,7 @@ class ScreenCalendar
         ref int day, ref int month, ref int year)
     {
         string[] date = DateTime.Now.ToString("dd/MM/yyyy").Split('/');
-        day = dateActual.Day/*Convert.ToInt32(date[0])*/;
+        day = dateActual.Day;
         month = dateActual.Month;
         year = dateActual.Year;
     }
@@ -64,7 +65,7 @@ class ScreenCalendar
         }
 
         Console.SetCursorPosition(0, 0);
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Green;
     }
     public void PrintMenu()
     {
@@ -97,16 +98,11 @@ class ScreenCalendar
         return false;
     }
 
-
-    public void ShowDay(int dayS, int monthS, int yearS)
+    public void ShowDay()
     {
-        Console.Clear();
-        DateTime searchDay = new DateTime();
-        searchDay = new DateTime(yearS, monthS, dayS);
-
         SetConsole();
 
-        Console.WriteLine(months[monthS].numMonth);
+
     }
 
     public void DaysInMonths(List<Month> months, int year)
@@ -279,14 +275,95 @@ class ScreenCalendar
         Console.Clear();
 
         Console.WriteLine("What date do you want to see: ");
-        string[] date = Console.ReadLine().Split('/');
-        int day = Convert.ToInt32(date[0]);
-        int month = Convert.ToInt32(date[1]);
-        int year = Convert.ToInt32(date[2]);
+        string date = Console.ReadLine();
 
-        ShowDay(day, month, year);
+        SetConsole();
+        for (int i = 0; i < tasksList.Tasks.Count; i++)
+        {
+            if (tasksList.Tasks[i].DateStart == date)
+            {
+                ShowTaskCursor(tasksList, i);
+                Console.SetCursorPosition(0, 24);
+                Console.WriteLine("Press enter to show the next task if" +
+                                  " there is one more.");
+                Console.ReadLine();
+                Console.Clear();
+            }
+        }
+        Console.Clear();
+        Console.WriteLine("Do you want to add some task? (Yes/No)");
+        string answer = Console.ReadLine().ToLower();
+        if (answer == "yes")
+        {
+            tasksList.Load();
+            tasks.SetConsoleEmpty();
+            tasks.Add();
+        }
+        else if(answer == "no")
+        {
+            Console.WriteLine("Okey. See you!");
+            Console.WriteLine("Pres ESC to return.");
+        }
     }
+    public void ShowTaskCursor(TasksList tasksList, int option)
+    {
+        string[] camps = { "Description:", "DateStart:", "DateDue:",
+            "Category:", "Priority:", "Confidential:"};
 
+        //Program body
+        try
+        {
+            int contCamps = 0;
+            config.WriteFore(0, 4, camps[contCamps],
+                "green", false);
+            config.WriteFore((camps[contCamps].Length + 4), 4,
+                tasks.checkVacio(tasksList.Get(option).Description), "green", 
+                true);
+            contCamps++;
+
+            Console.WriteLine();
+            config.WriteFore(0, 7, camps[contCamps],
+                "green", false);
+            config.WriteFore((camps[contCamps].Length + 4), 7,
+                tasks.checkVacio(tasksList.Get(option).DateStart), "green", 
+                true);
+            contCamps++;
+
+            config.WriteFore(0, 8, camps[contCamps],
+                "green", false);
+            config.WriteFore((camps[contCamps].Length + 4), 8,
+                tasks.checkVacio(tasksList.Get(option).DateDue), "green", true);
+            contCamps++;
+
+            Console.WriteLine();
+            config.WriteFore(0, 10,
+                camps[contCamps], "green", false);
+            config.WriteFore((camps[contCamps].Length + 4), 10,
+                tasks.checkVacio(tasksList.Get(option).Category), "green", 
+                true);
+            contCamps++;
+
+            config.WriteFore(0, 12,
+                camps[contCamps], "green", false);
+            config.WriteFore((camps[contCamps].Length + 4), 12,
+                tasks.checkVacio(tasksList.Get(option).Priority), "green", 
+                true);
+            contCamps++;
+
+            config.WriteFore(0, 14,
+                camps[contCamps], "green", false);
+            config.WriteFore((camps[contCamps].Length + 4), 14,
+                tasks.checkVacio(tasksList.Get(option).Confidential), "green", 
+                true);
+            contCamps = 0;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e.Message);
+        }
+    }
+    
     public void GetChosenOption(ref bool exit, ref int xCursor,
         ref int yCursor, ref bool selectDay, ref bool cursorSelected)
     {
@@ -300,12 +377,11 @@ class ScreenCalendar
 
         switch (key.Key)
         {
-            //case ConsoleKey.S: SearchDay(); break;
+            case ConsoleKey.S: SearchDay(); break;
             case ConsoleKey.Escape: exit = true; break;
-            /*case ConsoleKey.Enter:
-                selectDay = true;
-                functions.OpenDay();
-                break;*/
+            case ConsoleKey.Enter:
+                selectDay = true; ShowDay();
+                break;
             //case ConsoleKey.V: functions.ChangeVisualization(); break;
             case ConsoleKey.LeftArrow:
                 if (x > 23)
