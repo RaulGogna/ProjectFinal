@@ -12,15 +12,15 @@ class ScreenCalendar
     public List<Month> months = new List<Month>();
     public static TasksList tasksList = new TasksList();
     public static int day, mounthD = 0, year = 0;
-    public static DateTime dateActual = DateTime.Today;
-    public bool selectedDay = false;
+    public static DateTime dateActual = DateTime.Now;
+    public bool selectedDay = false, cursorSelected = false;
     public static void GetCurrentMounth(
         ref int day, ref int month, ref int year)
     {
-        string[] date = dateActual.ToString("dd/MM/yyyy").Split('/');
-        day = Convert.ToInt32(date[0]);
-        month = Convert.ToInt32(date[1]);
-        year = Convert.ToInt32(date[2]);
+        string[] date = DateTime.Now.ToString("dd/MM/yyyy").Split('/');
+        day = dateActual.Day/*Convert.ToInt32(date[0])*/;
+        month = dateActual.Month;
+        year = dateActual.Year;
     }
     public struct Month
     {
@@ -44,12 +44,12 @@ class ScreenCalendar
     {
         config = new ConfigurationConsole();
         bool exit = false;
-        int xCursor = 0, yCursor = 0;
+        int xCursor = 23, yCursor = 8;
         do
         {
-            DisplayCalendar(xCursor, yCursor, selectedDay, exit);
+            DisplayCalendar(ref xCursor, ref yCursor, cursorSelected, exit);
             GetChosenOption(ref exit, ref xCursor, ref yCursor,
-                ref selectedDay);
+                ref selectedDay, ref cursorSelected);
         } while (!exit);
     }
 
@@ -88,10 +88,10 @@ class ScreenCalendar
     {
         string date = diaTask.ToString() + "/" + mesTask.ToString() + "/"
             + añoTask.ToString();
-        for (int i = 0; i < tasksList.Count; i++)
+        foreach (Task c in tasksList.Tasks)
         {
-            if (tasksList.Tasks[i].DateStart.Contains(date) &&
-               tasksList.Tasks[i].Confidential == false)
+            if (c.DateStart.Contains(date) &&
+               c.Confidential == false)
                 return true;
         }
         return false;
@@ -149,12 +149,13 @@ class ScreenCalendar
         else
             Console.Write(" ");
     }
-    public void DrawHeader()
+    public void DrawHeader(bool selectedCursor)
     {
         PrintMenu();
-
-        GetCurrentMounth(ref day, ref mounthD, ref year);
-        dateActual = new DateTime(year, mounthD, 1);
+        //para comprobar solo una vez cada vez que se inicia opcion calendario
+        if(!selectedCursor)
+            GetCurrentMounth(ref day, ref mounthD, ref year);
+        dateActual = new DateTime(year, mounthD, day);
         DaysInMonths(months, year);
 
         //Header
@@ -168,10 +169,10 @@ class ScreenCalendar
         config.WriteBack(size, 3, header, true);
         config.WriteBack(sizeSubHeader, 6, subHeader, true);
     }
-    public void DisplayCalendar(int xCursor, int yCursor, bool selectDay,
-        bool exit)
+    public void DisplayCalendar(ref int xCursor, ref int yCursor, 
+        bool selectedCursor, bool exit)
     {
-        DrawHeader();
+        DrawHeader(selectedCursor);
         Month myMonth = months[mounthD - 1];
 
         int j = 0;
@@ -191,10 +192,10 @@ class ScreenCalendar
             switch (myMonth.day.currentDay)
             {
                 case 1:
-                    Console.SetCursorPosition(x, y + j);
+                    k = 0; Console.SetCursorPosition(x + k, y + j);
                     break;
                 case 2:
-                    Console.SetCursorPosition(x + k, y + j);
+                    k = 5; Console.SetCursorPosition(x + k, y + j);
                     break;
                 case 3:
                     k += 5; Console.SetCursorPosition(x + k, y + j);
@@ -215,7 +216,7 @@ class ScreenCalendar
                     break;
             }
             //If i is equals to day of current month
-            if (i == day)
+            if (!cursorSelected && i == day)
             {
                 xCursor = x + k;
                 yCursor = y + j;
@@ -223,18 +224,16 @@ class ScreenCalendar
                 Daylessthan10(i);
                 Console.BackgroundColor = ConsoleColor.Blue;
             }
-            /*
-            else
+            if (!cursorSelected && i == day && ContainsTasks(i, mounthD, year))
             {
-                Console.SetCursorPosition(xCursor, yCursor);
-                Daylessthan10(i);
-                Console.BackgroundColor = ConsoleColor.Blue;
-            }*/
-            if (i == day && ContainsTasks(i, mounthD, year))
-            {
-                Daylessthan10(i);
+                //Daylessthan10(i);
                 //Contiene tareas y cursor encima del dia
                 Console.BackgroundColor = ConsoleColor.Yellow;
+            }
+            else if(cursorSelected && i == day && ((x + k) == xCursor && 
+                (y + j) == yCursor) && ContainsTasks(i, mounthD, year))
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
             }
             else if (ContainsTasks(i, mounthD, year))
             {
@@ -248,11 +247,7 @@ class ScreenCalendar
             }
 
             if (myMonth.day.currentDay == 7)
-            {
-                x = 23;
-                j += 2;
                 Console.ForegroundColor = ConsoleColor.Magenta;
-            }
             else
             {
                 if (myMonth.day.currentDay == 6)
@@ -260,12 +255,23 @@ class ScreenCalendar
                 else
                     Console.ForegroundColor = ConsoleColor.Green;
             }
-
-            Console.Write(i);
+            if (cursorSelected && ((x + k) == xCursor && (y + j) == yCursor))
+            {
+                if(i > 9)
+                    Console.SetCursorPosition(xCursor + 1, yCursor);
+                else
+                    Console.SetCursorPosition(xCursor + 2, yCursor);
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.Write(i);
+            }
+            else
+            {
+                Console.Write(i);
+            }
+            if(myMonth.day.currentDay == 7)
+                j += 2;
             Console.ResetColor();
         }
-        GetChosenOption(ref exit, ref xCursor, ref yCursor,
-            ref selectedDay);
     }
 
     public void SearchDay()
@@ -282,9 +288,10 @@ class ScreenCalendar
     }
 
     public void GetChosenOption(ref bool exit, ref int xCursor,
-        ref int yCursor, ref bool selectDay)
+        ref int yCursor, ref bool selectDay, ref bool cursorSelected)
     {
         ConsoleKeyInfo key;
+        functions = new CalendarFunctions();
         int x = xCursor, y = yCursor;
         do
         {
@@ -299,27 +306,29 @@ class ScreenCalendar
                 selectDay = true;
                 functions.OpenDay();
                 break;*/
-            case ConsoleKey.V: functions.ChangeVisualization(); break;
+            //case ConsoleKey.V: functions.ChangeVisualization(); break;
             case ConsoleKey.LeftArrow:
                 if (x > 23)
                     xCursor -= 5;
+                cursorSelected = true;
                 break;
             case ConsoleKey.UpArrow:
                 if (y > 8)
                     yCursor -= 2;
+                cursorSelected = true;
                 break;
             case ConsoleKey.RightArrow:
                 if (x < 53)
                     xCursor += 5;
+                cursorSelected = true;
                 break;
             case ConsoleKey.DownArrow:
                 if (y < 16)
-                    xCursor += 2;
+                    yCursor += 2;
+                cursorSelected = true;
                 break;
             default:
                 break;
         }
-        Console.BackgroundColor = ConsoleColor.Blue;
-        Console.SetCursorPosition(xCursor, yCursor);
     }
 }
