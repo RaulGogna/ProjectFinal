@@ -132,7 +132,7 @@ class ScreenCalendar
         else
             Console.WriteLine("Quieres añadir una tarea? (Si/No)");
         string answer = Console.ReadLine().ToLower();
-        if (answer == "yes" || answer == "Si")
+        if (answer == "yes" || answer == "si")
         {
             tasksScreen.SetConsoleEmpty();
             tasksScreen.Add();
