@@ -11,6 +11,7 @@ class TasksList
     public int Count { get; set; }
     public TasksList()
     {
+        Tasks = new List<Task>();
         Load();
         Count = Tasks.Count;
     }
@@ -88,10 +89,6 @@ class TasksList
             {
                 Console.WriteLine("Read fail");
             }
-        }
-        else
-        {
-            Tasks = new List<Task>();
         }
     }
 

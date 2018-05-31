@@ -3,9 +3,18 @@ and allows you to select the menu options.*/
 using System;
 class MenuScreen
 {
-    
+    public static bool Spanish { get; set; }
+
     private string[] options = {"Calendar" , "Contacts", "Task to do","Notes",
-                            "Configuration", "Credtis"};
+                            "Configuration", "Credtis", "Change language"};
+
+    private string[] opciones = { "Calendario", "Contactos",
+        "Tareas pendientes", "Notas", "Configuracion", "Creditos",
+        "Cambiar idioma" };
+    public MenuScreen()
+    {
+        Spanish = false;
+    }
     public void Run()
     {
         ConfigureConsole();
@@ -20,7 +29,7 @@ class MenuScreen
             bool selectedOption = false;
             do
             {
-                PrintMenu(option);
+                PrintMenu(option, Spanish);
                 GetChosenOption(ref option, ref selectedOption);
             } while (!selectedOption);
 
@@ -45,6 +54,9 @@ class MenuScreen
                 case 6:
                     CreditsScreen credits = new CreditsScreen();
                     credits.Run();
+                    break;
+                case 7:
+                    Spanish = !Spanish;
                     break;
                 case 0:
                     exit = true;
@@ -86,32 +98,57 @@ class MenuScreen
 
         Console.SetCursorPosition(4, Console.WindowHeight - 3);
         Console.ForegroundColor = ConsoleColor.Black;
-        Console.Write("Press ESC to Exit");
+        if (!Spanish)
+            Console.Write("Press ESC to Exit");
+        else
+            Console.Write("Presione ESC para salir");
         Console.ResetColor();
     }
 
-    public void PrintMenu(int cursorOption)
+    public void PrintMenu(int cursorOption, bool Spanish)
     {
         int x = Console.WindowWidth / 2 - 7;
         int y = Console.WindowHeight / 2 - 2;
-        
 
-        for (int i = 0; i < options.Length; i++)
+        if (!Spanish)
         {
-            Console.SetCursorPosition(x, y + i);
-            Console.ForegroundColor = ConsoleColor.White;
-            if (i == cursorOption - 1)
+            for (int i = 0; i < options.Length; i++)
             {
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write(options[i]);
+                Console.SetCursorPosition(x, y + i);
+                Console.ForegroundColor = ConsoleColor.White;
+                if (i == cursorOption - 1)
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write(options[i]);
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    Console.Write(options[i]);
+                }
+                Console.ResetColor();
             }
-            else
+        }
+        else
+        {
+            for (int i = 0; i < opciones.Length; i++)
             {
-                Console.BackgroundColor = ConsoleColor.Blue;
-                Console.Write(options[i]);
+                Console.SetCursorPosition(x, y + i);
+                Console.ForegroundColor = ConsoleColor.White;
+                if (i == cursorOption - 1)
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write(opciones[i]);
+                }
+                else
+                {
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    Console.Write(opciones[i]);
+                }
+                Console.ResetColor();
             }
-            Console.ResetColor();
         }
     }
 

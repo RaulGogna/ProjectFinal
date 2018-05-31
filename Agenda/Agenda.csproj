@@ -50,9 +50,6 @@
     <Compile Include="Contacts.cs" />
     <Compile Include="ContactsList.cs" />
     <Compile Include="CreditsScreen.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="Events.cs" />
-    <Compile Include="EventsList.cs" />
     <Compile Include="ImportCalendar.cs" />
     <Compile Include="ImportContacts.cs" />
     <Compile Include="MenuScreen.cs" />
