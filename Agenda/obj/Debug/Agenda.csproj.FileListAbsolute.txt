@@ -1,7 +1,0 @@
-C:\Users\Raul Gogna\Documents\Grado\1ºDAM 2017-2018\Programacion\ProyectoFinal\Proyecto\ProyectoAgenda\Agenda\Agenda\bin\Debug\Agenda.exe.config
-C:\Users\Raul Gogna\Documents\Grado\1ºDAM 2017-2018\Programacion\ProyectoFinal\Proyecto\ProyectoAgenda\Agenda\Agenda\bin\Debug\Agenda.exe
-C:\Users\Raul Gogna\Documents\Grado\1ºDAM 2017-2018\Programacion\ProyectoFinal\Proyecto\ProyectoAgenda\Agenda\Agenda\bin\Debug\Agenda.pdb
-C:\Users\Raul Gogna\Documents\Grado\1ºDAM 2017-2018\Programacion\ProyectoFinal\Proyecto\ProyectoAgenda\Agenda\Agenda\obj\Debug\Agenda.csprojResolveAssemblyReference.cache
-C:\Users\Raul Gogna\Documents\Grado\1ºDAM 2017-2018\Programacion\ProyectoFinal\Proyecto\ProyectoAgenda\Agenda\Agenda\obj\Debug\Agenda.csproj.CoreCompileInputs.cache
-C:\Users\Raul Gogna\Documents\Grado\1ºDAM 2017-2018\Programacion\ProyectoFinal\Proyecto\ProyectoAgenda\Agenda\Agenda\obj\Debug\Agenda.exe
-C:\Users\Raul Gogna\Documents\Grado\1ºDAM 2017-2018\Programacion\ProyectoFinal\Proyecto\ProyectoAgenda\Agenda\Agenda\obj\Debug\Agenda.pdb

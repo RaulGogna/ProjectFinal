@@ -3,17 +3,7 @@ and allows you to select the menu options.*/
 using System;
 class MenuScreen
 {
-    public static bool Spanish
-    {
-        get
-        {
-            return Spanish;
-        }
-        set
-        {
-            Spanish = false;
-        }
-    }
+    public static bool Spanish { get; set; }
 
     private string[] options = {"Calendar" , "Contacts", "Task to do","Notes",
                             "Configuration", "Credtis", "Change language"};
@@ -21,6 +11,10 @@ class MenuScreen
     private string[] opciones = { "Calendario", "Contactos",
         "Tareas pendientes", "Notas", "Configuracion", "Creditos",
         "Cambiar idioma" };
+    public MenuScreen()
+    {
+        Spanish = false;
+    }
     public void Run()
     {
         ConfigureConsole();
